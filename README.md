@@ -8,7 +8,7 @@ Todo final de curso, gestores de instituiçòes de ensino se deparam com um típ
 - Hibernate 5.4
 - PostgreSQL 11.1.1
 
-### Diagrama Entidade-Relacionamento
+## Diagrama Entidade-Relacionamento
 
 <p align="center">
   <img src="https://github.com/kleberandrade/committee-timetable/blob/master/figures/database.png" height=600"/>
