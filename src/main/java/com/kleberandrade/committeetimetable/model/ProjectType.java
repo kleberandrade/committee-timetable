@@ -21,19 +21,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.kleberandrade.committeetimetable.models;
+package com.kleberandrade.committeetimetable.model;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
+/**
+ *
+ * @author Kleber de Oliveira Andrade
+ */
 @Entity
-public class Expertise implements Serializable {
+@Table(name = "project_type")
+public class ProjectType implements Serializable {
 
     private static final long serialVersionUID = 0L;
 
@@ -43,10 +48,7 @@ public class Expertise implements Serializable {
 
     private String name;
 
-    @ManyToMany(mappedBy = "expertises")
-    private List<Professor> professors;
-
-    @ManyToMany(mappedBy = "expertises")
+    @OneToMany(mappedBy = "type")
     private List<Project> projects;
 
     public Long getId() {
@@ -65,14 +67,6 @@ public class Expertise implements Serializable {
         this.name = name;
     }
 
-    public List<Professor> getProfessors() {
-        return professors;
-    }
-
-    public void setProfessors(List<Professor> professors) {
-        this.professors = professors;
-    }
-
     public List<Project> getProjects() {
         return projects;
     }
@@ -80,7 +74,5 @@ public class Expertise implements Serializable {
     public void setProjects(List<Project> projects) {
         this.projects = projects;
     }
-    
-    
 
 }

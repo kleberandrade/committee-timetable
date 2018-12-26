@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.kleberandrade.committeetimetable.models;
+package com.kleberandrade.committeetimetable.model;
 
 import java.io.Serializable;
 import java.util.List;

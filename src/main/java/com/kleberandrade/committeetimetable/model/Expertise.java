@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2018 1711 MXTI.
+ * Copyright 2018 Kleber de Oliveira Andrade.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.kleberandrade.committeetimetable.models;
+package com.kleberandrade.committeetimetable.model;
 
 import java.io.Serializable;
 import java.util.List;
@@ -29,25 +29,24 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
-/**
- *
- * @author 1711 MXTI
- */
 @Entity
-public class Degree  implements Serializable {
+public class Expertise implements Serializable {
 
     private static final long serialVersionUID = 0L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String name;
-    
-    @OneToMany(mappedBy = "degree")
+
+    @ManyToMany(mappedBy = "expertises")
     private List<Professor> professors;
+
+    @ManyToMany(mappedBy = "expertises")
+    private List<Project> projects;
 
     public Long getId() {
         return id;
@@ -68,4 +67,19 @@ public class Degree  implements Serializable {
     public List<Professor> getProfessors() {
         return professors;
     }
+
+    public void setProfessors(List<Professor> professors) {
+        this.professors = professors;
+    }
+
+    public List<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
+    }
+    
+    
+
 }

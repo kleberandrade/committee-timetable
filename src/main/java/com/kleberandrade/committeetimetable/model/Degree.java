@@ -21,48 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.kleberandrade.committeetimetable.models;
+package com.kleberandrade.committeetimetable.model;
 
 import java.io.Serializable;
-import java.time.LocalTime;
 import java.util.List;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.OneToMany;
 
 /**
  *
- * @author 1711 MXTI
+ * @author Kleber de Oliveira Andrade
  */
 @Entity
-public class Committee implements Serializable {
+public class Degree  implements Serializable {
 
     private static final long serialVersionUID = 0L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-
-    private Integer day;
-
-    @Column(name = "start_time")
-    private LocalTime startTime;
-
-    @Column(name = "end_time")
-    private LocalTime endTime;
-
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Project project;
-
-    @ManyToMany
+    
+    private String name;
+    
+    @OneToMany(mappedBy = "degree")
     private List<Professor> professors;
 
     public Long getId() {
@@ -73,44 +57,15 @@ public class Committee implements Serializable {
         this.id = id;
     }
 
-    public Integer getDay() {
-        return day;
+    public String getName() {
+        return name;
     }
 
-    public void setDay(Integer day) {
-        this.day = day;
-    }
-
-    public LocalTime getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public LocalTime getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(LocalTime endTime) {
-        this.endTime = endTime;
-    }
-
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Professor> getProfessors() {
         return professors;
     }
-
-    public void setProfessors(List<Professor> professors) {
-        this.professors = professors;
-    }
-
 }

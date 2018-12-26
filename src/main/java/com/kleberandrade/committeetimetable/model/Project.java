@@ -21,19 +21,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.kleberandrade.committeetimetable.models;
+package com.kleberandrade.committeetimetable.model;
+
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
+/**
+ *
+ * @author Kleber de Oliveira Andrade
+ */
 @Entity
-public class Course implements Serializable {
+public class Project implements Serializable {
 
     private static final long serialVersionUID = 0L;
 
@@ -41,13 +48,22 @@ public class Course implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String title;
 
-    @OneToMany(mappedBy = "course")
+    @ManyToOne
+    private ProjectType type;
+
+    @ManyToOne
+    private Professor professor;
+
+    @ManyToMany
+    private List<Expertise> expertises;
+
+    @OneToOne(mappedBy = "project")
+    private Committee committee;
+
+    @OneToMany(mappedBy = "project")
     private List<Student> students;
-
-    @OneToMany(mappedBy = "course")
-    private List<Schedule> schedules;
 
     public Long getId() {
         return id;
@@ -57,12 +73,44 @@ public class Course implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public ProjectType getType() {
+        return type;
+    }
+
+    public void setType(ProjectType type) {
+        this.type = type;
+    }
+
+    public Professor getProfessor() {
+        return professor;
+    }
+
+    public void setProfessor(Professor professor) {
+        this.professor = professor;
+    }
+
+    public List<Expertise> getExpertises() {
+        return expertises;
+    }
+
+    public void setExpertises(List<Expertise> expertises) {
+        this.expertises = expertises;
+    }
+
+    public Committee getCommittee() {
+        return committee;
+    }
+
+    public void setCommittee(Committee committee) {
+        this.committee = committee;
     }
 
     public List<Student> getStudents() {
@@ -71,14 +119,6 @@ public class Course implements Serializable {
 
     public void setStudents(List<Student> students) {
         this.students = students;
-    }
-
-    public List<Schedule> getSchedules() {
-        return schedules;
-    }
-
-    public void setSchedules(List<Schedule> schedules) {
-        this.schedules = schedules;
     }
 
 }

@@ -21,23 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.kleberandrade.committeetimetable.models;
+package com.kleberandrade.committeetimetable.model;
 
 import java.io.Serializable;
-import java.time.LocalTime;
-import javax.persistence.Column;
+import java.util.List;
+import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
-/**
- *
- * @author 1711 MXTI
- */
 @Entity
-public class Schedule implements Serializable {
+public class Course implements Serializable {
 
     private static final long serialVersionUID = 0L;
 
@@ -45,19 +41,13 @@ public class Schedule implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer day;
+    private String name;
 
-    @Column(name = "start_time")
-    private LocalTime startTime;
+    @OneToMany(mappedBy = "course")
+    private List<Student> students;
 
-    @Column(name = "end_time")
-    private LocalTime endTime;
-
-    @ManyToOne
-    private Course course;
-
-    @ManyToOne
-    private Professor professor;
+    @OneToMany(mappedBy = "course")
+    private List<Schedule> schedules;
 
     public Long getId() {
         return id;
@@ -67,45 +57,28 @@ public class Schedule implements Serializable {
         this.id = id;
     }
 
-    public Integer getDay() {
-        return day;
+    public String getName() {
+        return name;
     }
 
-    public void setDay(Integer day) {
-        this.day = day;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public LocalTime getStartTime() {
-        return startTime;
+    public List<Student> getStudents() {
+        return students;
     }
 
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
+    public void setStudents(List<Student> students) {
+        this.students = students;
     }
 
-    public LocalTime getEndTime() {
-        return endTime;
+    public List<Schedule> getSchedules() {
+        return schedules;
     }
 
-    public void setEndTime(LocalTime endTime) {
-        this.endTime = endTime;
+    public void setSchedules(List<Schedule> schedules) {
+        this.schedules = schedules;
     }
 
-    public Course getCourse() {
-        return course;
-    }
-
-    public void setCourse(Course course) {
-        this.course = course;
-    }
-
-    public Professor getProfessor() {
-        return professor;
-    }
-
-    public void setProfessor(Professor professor) {
-        this.professor = professor;
-    }
-    
-    
 }

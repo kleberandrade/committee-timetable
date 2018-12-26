@@ -21,41 +21,47 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.kleberandrade.committeetimetable.models;
+package com.kleberandrade.committeetimetable.model;
 
 import java.io.Serializable;
+import java.time.LocalTime;
+import java.util.List;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
- * @author 1711 MXTI
+ * @author Kleber de Oliveira Andrade
  */
 @Entity
-public class Student implements Serializable {
+public class Committee implements Serializable {
 
     private static final long serialVersionUID = 0L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
-    private String name;
 
-    private String ra;
+    private Integer day;
 
-    private String email;
+    @Column(name = "start_time")
+    private LocalTime startTime;
 
-    private String picture;
+    @Column(name = "end_time")
+    private LocalTime endTime;
 
-    @ManyToOne
-    private Course course;
-    
-    @ManyToOne
+    @OneToOne
+    @JoinColumn(unique = true)
     private Project project;
+
+    @ManyToMany
+    private List<Professor> professors;
 
     public Long getId() {
         return id;
@@ -65,44 +71,28 @@ public class Student implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Integer getDay() {
+        return day;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setDay(Integer day) {
+        this.day = day;
     }
 
-    public String getRa() {
-        return ra;
+    public LocalTime getStartTime() {
+        return startTime;
     }
 
-    public void setRa(String ra) {
-        this.ra = ra;
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
     }
 
-    public String getEmail() {
-        return email;
+    public LocalTime getEndTime() {
+        return endTime;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
-
-    public Course getCourse() {
-        return course;
-    }
-
-    public void setCourse(Course course) {
-        this.course = course;
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
     }
 
     public Project getProject() {
@@ -111,6 +101,14 @@ public class Student implements Serializable {
 
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    public List<Professor> getProfessors() {
+        return professors;
+    }
+
+    public void setProfessors(List<Professor> professors) {
+        this.professors = professors;
     }
 
 }

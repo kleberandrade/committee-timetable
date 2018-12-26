@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2018 1711 MXTI.
+ * Copyright 2018 Kleber de Oliveira Andrade.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,35 +21,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package com.kleberandrade.committeetimetable.models;
+package com.kleberandrade.committeetimetable.model;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.ManyToOne;
 
 /**
  *
- * @author 1711 MXTI
+ * @author Kleber de Oliveira Andrade
  */
 @Entity
-@Table(name = "project_type")
-public class ProjectType implements Serializable {
+public class Student implements Serializable {
 
     private static final long serialVersionUID = 0L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
     private String name;
 
-    @OneToMany(mappedBy = "type")
-    private List<Project> projects;
+    private String ra;
+
+    private String email;
+
+    private String picture;
+
+    @ManyToOne
+    private Course course;
+    
+    @ManyToOne
+    private Project project;
 
     public Long getId() {
         return id;
@@ -67,12 +73,44 @@ public class ProjectType implements Serializable {
         this.name = name;
     }
 
-    public List<Project> getProjects() {
-        return projects;
+    public String getRa() {
+        return ra;
     }
 
-    public void setProjects(List<Project> projects) {
-        this.projects = projects;
+    public void setRa(String ra) {
+        this.ra = ra;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 
 }
