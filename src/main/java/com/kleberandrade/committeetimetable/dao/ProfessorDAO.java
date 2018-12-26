@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2018 1711 MXTI.
+ * Copyright 2018 Kleber de Oliveira Andrade.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,11 +23,11 @@
  */
 package com.kleberandrade.committeetimetable.dao;
 
-import com.kleberandrade.committeetimetable.models.Professor;
+import com.kleberandrade.committeetimetable.model.Professor;
 
 /**
  *
- * @author 1711 MXTI
+ * @author Kleber de Oliveira Andrade
  */
 public class ProfessorDAO extends AbstractDAO<Professor> {
     

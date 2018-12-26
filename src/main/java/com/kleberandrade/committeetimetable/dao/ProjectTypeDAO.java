@@ -23,15 +23,15 @@
  */
 package com.kleberandrade.committeetimetable.dao;
 
-import com.kleberandrade.committeetimetable.model.Schedule;
+import com.kleberandrade.committeetimetable.model.Project;
 
 /**
  *
  * @author Kleber de Oliveira Andrade
  */
-public class ScheduleDAO extends AbstractDAO<Schedule> {
+public class ProjectTypeDAO extends AbstractDAO<Project> {
 
-    public ScheduleDAO() {
+    public ProjectTypeDAO() {
     }
 
 }
