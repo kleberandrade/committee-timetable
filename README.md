@@ -1,5 +1,7 @@
 # Final Project Committee Timetabling Problem 
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/19a2c0cd7eef4a72ab8526901a0a73e7)](https://app.codacy.com/app/kleberandrade/committee-timetable?utm_source=github.com&utm_medium=referral&utm_content=kleberandrade/committee-timetable&utm_campaign=Badge_Grade_Dashboard)
+
 Todo final de curso, gestores de instituiçòes de ensino se deparam com um típico problema: montar as grades horárias das defesas do projeto final de curso considerando as restrições de disponibilidade horária de todos os envolvidos.
 
 ## Dependências
