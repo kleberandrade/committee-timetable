@@ -27,8 +27,11 @@ import com.kleberandrade.committeetimetable.model.Course;
 
 public class CourseDAO extends AbstractDAO<Course> {
 
-    public CourseDAO() { super(Course.class); }
+  public CourseDAO() {
+    super(Course.class);
+  }
 
-    public CourseDAO(jakarta.persistence.EntityManagerFactory factory) { super(Course.class, factory); }
-    
+  public CourseDAO(jakarta.persistence.EntityManagerFactory factory) {
+    super(Course.class, factory);
+  }
 }

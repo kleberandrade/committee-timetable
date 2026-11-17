@@ -22,12 +22,16 @@
  * THE SOFTWARE.
  */
 package com.kleberandrade.committeetimetable.tablemodel;
+
 import com.kleberandrade.committeetimetable.model.Expertise;
 import java.util.List;
 
 public class ExpertiseTableModel extends ColumnTableModel<Expertise> {
-    public ExpertiseTableModel(List<Expertise> rows) {
-        super(rows, List.of(new Column<>("Id", Long.class, Expertise::getId),
-                new Column<>("Nome", String.class, Expertise::getName)));
-    }
+  public ExpertiseTableModel(List<Expertise> rows) {
+    super(
+        rows,
+        List.of(
+            new Column<>("Id", Long.class, Expertise::getId),
+            new Column<>("Nome", String.class, Expertise::getName)));
+  }
 }

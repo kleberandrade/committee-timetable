@@ -22,16 +22,24 @@
  * THE SOFTWARE.
  */
 package com.kleberandrade.committeetimetable.tablemodel;
+
 import com.kleberandrade.committeetimetable.model.Student;
 import java.util.List;
 
 public class StudentTableModel extends ColumnTableModel<Student> {
-    public StudentTableModel(List<Student> rows) {
-        super(rows, List.of(new Column<>("Id", Long.class, Student::getId),
-                new Column<>("Nome", String.class, Student::getName),
-                new Column<>("Email", String.class, Student::getEmail),
-                new Column<>("RA", String.class, Student::getRa),
-                new Column<>("Curso", String.class, s -> s.getCourse() == null ? "" : s.getCourse().getName()),
-                new Column<>("Projeto", String.class, s -> s.getProject() == null ? "" : s.getProject().getTitle())));
-    }
+  public StudentTableModel(List<Student> rows) {
+    super(
+        rows,
+        List.of(
+            new Column<>("Id", Long.class, Student::getId),
+            new Column<>("Nome", String.class, Student::getName),
+            new Column<>("Email", String.class, Student::getEmail),
+            new Column<>("RA", String.class, Student::getRa),
+            new Column<>(
+                "Curso", String.class, s -> s.getCourse() == null ? "" : s.getCourse().getName()),
+            new Column<>(
+                "Projeto",
+                String.class,
+                s -> s.getProject() == null ? "" : s.getProject().getTitle())));
+  }
 }

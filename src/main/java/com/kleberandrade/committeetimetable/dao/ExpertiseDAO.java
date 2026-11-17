@@ -26,13 +26,15 @@ package com.kleberandrade.committeetimetable.dao;
 import com.kleberandrade.committeetimetable.model.Expertise;
 
 /**
- *
  * @author Kleber de Oliveira Andrade
  */
 public class ExpertiseDAO extends AbstractDAO<Expertise> {
 
-    public ExpertiseDAO() { super(Expertise.class); }
+  public ExpertiseDAO() {
+    super(Expertise.class);
+  }
 
-    public ExpertiseDAO(jakarta.persistence.EntityManagerFactory factory) { super(Expertise.class, factory); }
-    
+  public ExpertiseDAO(jakarta.persistence.EntityManagerFactory factory) {
+    super(Expertise.class, factory);
+  }
 }

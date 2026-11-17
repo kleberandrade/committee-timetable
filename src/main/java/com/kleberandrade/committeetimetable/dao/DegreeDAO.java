@@ -26,13 +26,15 @@ package com.kleberandrade.committeetimetable.dao;
 import com.kleberandrade.committeetimetable.model.Degree;
 
 /**
- *
  * @author Kleber de Oliveira Andrade
  */
 public class DegreeDAO extends AbstractDAO<Degree> {
 
-    public DegreeDAO() { super(Degree.class); }
+  public DegreeDAO() {
+    super(Degree.class);
+  }
 
-    public DegreeDAO(jakarta.persistence.EntityManagerFactory factory) { super(Degree.class, factory); }
-
+  public DegreeDAO(jakarta.persistence.EntityManagerFactory factory) {
+    super(Degree.class, factory);
+  }
 }

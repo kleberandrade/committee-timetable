@@ -22,12 +22,16 @@
  * THE SOFTWARE.
  */
 package com.kleberandrade.committeetimetable.tablemodel;
+
 import com.kleberandrade.committeetimetable.model.ProjectType;
 import java.util.List;
 
 public class ProjectTypeTableModel extends ColumnTableModel<ProjectType> {
-    public ProjectTypeTableModel(List<ProjectType> rows) {
-        super(rows, List.of(new Column<>("Id", Long.class, ProjectType::getId),
-                new Column<>("Nome", String.class, ProjectType::getName)));
-    }
+  public ProjectTypeTableModel(List<ProjectType> rows) {
+    super(
+        rows,
+        List.of(
+            new Column<>("Id", Long.class, ProjectType::getId),
+            new Column<>("Nome", String.class, ProjectType::getName)));
+  }
 }

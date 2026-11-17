@@ -22,12 +22,16 @@
  * THE SOFTWARE.
  */
 package com.kleberandrade.committeetimetable.tablemodel;
+
 import com.kleberandrade.committeetimetable.model.Course;
 import java.util.List;
 
 public class CourseTableModel extends ColumnTableModel<Course> {
-    public CourseTableModel(List<Course> rows) {
-        super(rows, List.of(new Column<>("Id", Long.class, Course::getId),
-                new Column<>("Nome", String.class, Course::getName)));
-    }
+  public CourseTableModel(List<Course> rows) {
+    super(
+        rows,
+        List.of(
+            new Column<>("Id", Long.class, Course::getId),
+            new Column<>("Nome", String.class, Course::getName)));
+  }
 }

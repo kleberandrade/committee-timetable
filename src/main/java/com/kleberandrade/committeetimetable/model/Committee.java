@@ -23,9 +23,6 @@
  */
 package com.kleberandrade.committeetimetable.model;
 
-import java.io.Serializable;
-import java.time.LocalTime;
-import java.util.List;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,81 +31,81 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
+import java.io.Serializable;
+import java.time.LocalTime;
+import java.util.List;
 
 /**
- *
  * @author Kleber de Oliveira Andrade
  */
 @Entity
 public class Committee implements Serializable {
 
-    private static final long serialVersionUID = 0L;
+  private static final long serialVersionUID = 0L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    private Integer day;
+  private Integer day;
 
-    @Column(name = "start_time")
-    private LocalTime startTime;
+  @Column(name = "start_time")
+  private LocalTime startTime;
 
-    @Column(name = "end_time")
-    private LocalTime endTime;
+  @Column(name = "end_time")
+  private LocalTime endTime;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Project project;
+  @OneToOne
+  @JoinColumn(unique = true)
+  private Project project;
 
-    @ManyToMany
-    private List<Professor> professors;
+  @ManyToMany private List<Professor> professors;
 
-    public Long getId() {
-        return id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public Integer getDay() {
-        return day;
-    }
+  public Integer getDay() {
+    return day;
+  }
 
-    public void setDay(Integer day) {
-        this.day = day;
-    }
+  public void setDay(Integer day) {
+    this.day = day;
+  }
 
-    public LocalTime getStartTime() {
-        return startTime;
-    }
+  public LocalTime getStartTime() {
+    return startTime;
+  }
 
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
-    }
+  public void setStartTime(LocalTime startTime) {
+    this.startTime = startTime;
+  }
 
-    public LocalTime getEndTime() {
-        return endTime;
-    }
+  public LocalTime getEndTime() {
+    return endTime;
+  }
 
-    public void setEndTime(LocalTime endTime) {
-        this.endTime = endTime;
-    }
+  public void setEndTime(LocalTime endTime) {
+    this.endTime = endTime;
+  }
 
-    public Project getProject() {
-        return project;
-    }
+  public Project getProject() {
+    return project;
+  }
 
-    public void setProject(Project project) {
-        this.project = project;
-    }
+  public void setProject(Project project) {
+    this.project = project;
+  }
 
-    public List<Professor> getProfessors() {
-        return professors;
-    }
+  public List<Professor> getProfessors() {
+    return professors;
+  }
 
-    public void setProfessors(List<Professor> professors) {
-        this.professors = professors;
-    }
-
+  public void setProfessors(List<Professor> professors) {
+    this.professors = professors;
+  }
 }

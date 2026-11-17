@@ -23,94 +23,90 @@
  */
 package com.kleberandrade.committeetimetable.model;
 
-import java.io.Serializable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import java.io.Serializable;
 
 /**
- *
  * @author Kleber de Oliveira Andrade
  */
 @Entity
 public class Student implements Serializable {
 
-    private static final long serialVersionUID = 0L;
+  private static final long serialVersionUID = 0L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
-    private String name;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    private String ra;
+  private String name;
 
-    private String email;
+  private String ra;
 
-    private String picture;
+  private String email;
 
-    @ManyToOne
-    private Course course;
-    
-    @ManyToOne
-    private Project project;
+  private String picture;
 
-    public Long getId() {
-        return id;
-    }
+  @ManyToOne private Course course;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  @ManyToOne private Project project;
 
-    public String getName() {
-        return name;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public String getRa() {
-        return ra;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setRa(String ra) {
-        this.ra = ra;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public String getEmail() {
-        return email;
-    }
+  public String getRa() {
+    return ra;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public void setRa(String ra) {
+    this.ra = ra;
+  }
 
-    public String getPicture() {
-        return picture;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-    public Course getCourse() {
-        return course;
-    }
+  public String getPicture() {
+    return picture;
+  }
 
-    public void setCourse(Course course) {
-        this.course = course;
-    }
+  public void setPicture(String picture) {
+    this.picture = picture;
+  }
 
-    public Project getProject() {
-        return project;
-    }
+  public Course getCourse() {
+    return course;
+  }
 
-    public void setProject(Project project) {
-        this.project = project;
-    }
+  public void setCourse(Course course) {
+    this.course = course;
+  }
 
+  public Project getProject() {
+    return project;
+  }
+
+  public void setProject(Project project) {
+    this.project = project;
+  }
 }

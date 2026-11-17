@@ -23,63 +23,60 @@
  */
 package com.kleberandrade.committeetimetable.model;
 
-import java.io.Serializable;
-import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
 public class Expertise implements Serializable {
 
-    private static final long serialVersionUID = 0L;
+  private static final long serialVersionUID = 0L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    private String name;
+  private String name;
 
-    @ManyToMany(mappedBy = "expertises")
-    private List<Professor> professors;
+  @ManyToMany(mappedBy = "expertises")
+  private List<Professor> professors;
 
-    @ManyToMany(mappedBy = "expertises")
-    private List<Project> projects;
+  @ManyToMany(mappedBy = "expertises")
+  private List<Project> projects;
 
-    public Long getId() {
-        return id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public List<Professor> getProfessors() {
-        return professors;
-    }
+  public List<Professor> getProfessors() {
+    return professors;
+  }
 
-    public void setProfessors(List<Professor> professors) {
-        this.professors = professors;
-    }
+  public void setProfessors(List<Professor> professors) {
+    this.professors = professors;
+  }
 
-    public List<Project> getProjects() {
-        return projects;
-    }
+  public List<Project> getProjects() {
+    return projects;
+  }
 
-    public void setProjects(List<Project> projects) {
-        this.projects = projects;
-    }
-    
-    
-
+  public void setProjects(List<Project> projects) {
+    this.projects = projects;
+  }
 }

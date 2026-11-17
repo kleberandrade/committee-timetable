@@ -27,92 +27,92 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 /**
- *
  * @author Kleber de Oliveira Andrade
  */
-public abstract class GenericTableModel<T> extends AbstractTableModel implements IGenericTableModel<T> {
+public abstract class GenericTableModel<T> extends AbstractTableModel
+    implements IGenericTableModel<T> {
 
-    protected List<T> list;
+  protected List<T> list;
 
-    protected String[] columns;
+  protected String[] columns;
 
-    protected Class<?>[] columnsType;
+  protected Class<?>[] columnsType;
 
-    public GenericTableModel(List<T> list) {
-        reload(list);
-    }
+  public GenericTableModel(List<T> list) {
+    reload(list);
+  }
 
-    @Override
-    public int getRowCount() {
-        return list.size();
-    }
+  @Override
+  public int getRowCount() {
+    return list.size();
+  }
 
-    @Override
-    public int getColumnCount() {
-        return columns.length;
-    }
+  @Override
+  public int getColumnCount() {
+    return columns.length;
+  }
 
-    @Override
-    public String getColumnName(int columnIndex) {
-        return columns[columnIndex];
-    }
+  @Override
+  public String getColumnName(int columnIndex) {
+    return columns[columnIndex];
+  }
 
-    @Override
-    public Class<?> getColumnClass(int columnIndex) {
-        return columnsType[columnIndex];
-    }
+  @Override
+  public Class<?> getColumnClass(int columnIndex) {
+    return columnsType[columnIndex];
+  }
 
-    @Override
-    public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return false;
-    }
+  @Override
+  public boolean isCellEditable(int rowIndex, int columnIndex) {
+    return false;
+  }
 
-    @Override
-    public void reload(List<T> t) {
-        this.list = t == null ? new java.util.ArrayList<>() : new java.util.ArrayList<>(t);
-        fireTableDataChanged();
-    }
+  @Override
+  public void reload(List<T> t) {
+    this.list = t == null ? new java.util.ArrayList<>() : new java.util.ArrayList<>(t);
+    fireTableDataChanged();
+  }
 
-    @Override
-    public T get(int rowIndex) {
-        return list.get(rowIndex);
-    }
+  @Override
+  public T get(int rowIndex) {
+    return list.get(rowIndex);
+  }
 
-    @Override
-    public void add(T t) {
-        list.add(t);
-        int lastIndex = getRowCount() - 1;
-        fireTableRowsInserted(lastIndex, lastIndex);
-    }
+  @Override
+  public void add(T t) {
+    list.add(t);
+    int lastIndex = getRowCount() - 1;
+    fireTableRowsInserted(lastIndex, lastIndex);
+  }
 
-    @Override
-    public void addList(List<T> t) {
-        if (t.isEmpty()) return;
-        int index = getRowCount();
-        list.addAll(t);
-        fireTableRowsInserted(index, index + t.size() - 1);
-    }
+  @Override
+  public void addList(List<T> t) {
+    if (t.isEmpty()) return;
+    int index = getRowCount();
+    list.addAll(t);
+    fireTableRowsInserted(index, index + t.size() - 1);
+  }
 
-    @Override
-    public void update(int rowIndex, T t) {
-        list.set(rowIndex, t);
-        fireTableRowsUpdated(rowIndex, rowIndex);
-    }
+  @Override
+  public void update(int rowIndex, T t) {
+    list.set(rowIndex, t);
+    fireTableRowsUpdated(rowIndex, rowIndex);
+  }
 
-    @Override
-    public void delete(int rowIndex) {
-        list.remove(rowIndex);
-        fireTableRowsDeleted(rowIndex, rowIndex);
-    }
+  @Override
+  public void delete(int rowIndex) {
+    list.remove(rowIndex);
+    fireTableRowsDeleted(rowIndex, rowIndex);
+  }
 
-    @Override
-    public void clear() {
-        list.clear();
-        fireTableDataChanged();
-    }
+  @Override
+  public void clear() {
+    list.clear();
+    fireTableDataChanged();
+  }
 
-    @Override
-    public boolean isEmpty() {
-        return list.isEmpty();
-    }
+  @Override
+  public boolean isEmpty() {
+    return list.isEmpty();
+  }
 }

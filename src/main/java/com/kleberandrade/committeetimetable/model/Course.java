@@ -23,62 +23,60 @@
  */
 package com.kleberandrade.committeetimetable.model;
 
-import java.io.Serializable;
-import java.util.List;
-import java.util.Objects;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
 public class Course implements Serializable {
 
-    private static final long serialVersionUID = 0L;
+  private static final long serialVersionUID = 0L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    private String name;
+  private String name;
 
-    @OneToMany(mappedBy = "course")
-    private List<Student> students;
+  @OneToMany(mappedBy = "course")
+  private List<Student> students;
 
-    @OneToMany(mappedBy = "course")
-    private List<Schedule> schedules;
+  @OneToMany(mappedBy = "course")
+  private List<Schedule> schedules;
 
-    public Long getId() {
-        return id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public List<Student> getStudents() {
-        return students;
-    }
+  public List<Student> getStudents() {
+    return students;
+  }
 
-    public void setStudents(List<Student> students) {
-        this.students = students;
-    }
+  public void setStudents(List<Student> students) {
+    this.students = students;
+  }
 
-    public List<Schedule> getSchedules() {
-        return schedules;
-    }
+  public List<Schedule> getSchedules() {
+    return schedules;
+  }
 
-    public void setSchedules(List<Schedule> schedules) {
-        this.schedules = schedules;
-    }
-
+  public void setSchedules(List<Schedule> schedules) {
+    this.schedules = schedules;
+  }
 }

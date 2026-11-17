@@ -23,9 +23,6 @@
  */
 package com.kleberandrade.committeetimetable.model;
 
-
-import java.io.Serializable;
-import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,91 +31,88 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import java.io.Serializable;
+import java.util.List;
 
 /**
- *
  * @author Kleber de Oliveira Andrade
  */
 @Entity
 public class Project implements Serializable {
 
-    private static final long serialVersionUID = 0L;
+  private static final long serialVersionUID = 0L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    private String title;
+  private String title;
 
-    @ManyToOne
-    private ProjectType type;
+  @ManyToOne private ProjectType type;
 
-    @ManyToOne
-    private Professor professor;
+  @ManyToOne private Professor professor;
 
-    @ManyToMany
-    private List<Expertise> expertises;
+  @ManyToMany private List<Expertise> expertises;
 
-    @OneToOne(mappedBy = "project")
-    private Committee committee;
+  @OneToOne(mappedBy = "project")
+  private Committee committee;
 
-    @OneToMany(mappedBy = "project")
-    private List<Student> students;
+  @OneToMany(mappedBy = "project")
+  private List<Student> students;
 
-    public Long getId() {
-        return id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public String getTitle() {
-        return title;
-    }
+  public String getTitle() {
+    return title;
+  }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+  public void setTitle(String title) {
+    this.title = title;
+  }
 
-    public ProjectType getType() {
-        return type;
-    }
+  public ProjectType getType() {
+    return type;
+  }
 
-    public void setType(ProjectType type) {
-        this.type = type;
-    }
+  public void setType(ProjectType type) {
+    this.type = type;
+  }
 
-    public Professor getProfessor() {
-        return professor;
-    }
+  public Professor getProfessor() {
+    return professor;
+  }
 
-    public void setProfessor(Professor professor) {
-        this.professor = professor;
-    }
+  public void setProfessor(Professor professor) {
+    this.professor = professor;
+  }
 
-    public List<Expertise> getExpertises() {
-        return expertises;
-    }
+  public List<Expertise> getExpertises() {
+    return expertises;
+  }
 
-    public void setExpertises(List<Expertise> expertises) {
-        this.expertises = expertises;
-    }
+  public void setExpertises(List<Expertise> expertises) {
+    this.expertises = expertises;
+  }
 
-    public Committee getCommittee() {
-        return committee;
-    }
+  public Committee getCommittee() {
+    return committee;
+  }
 
-    public void setCommittee(Committee committee) {
-        this.committee = committee;
-    }
+  public void setCommittee(Committee committee) {
+    this.committee = committee;
+  }
 
-    public List<Student> getStudents() {
-        return students;
-    }
+  public List<Student> getStudents() {
+    return students;
+  }
 
-    public void setStudents(List<Student> students) {
-        this.students = students;
-    }
-
+  public void setStudents(List<Student> students) {
+    this.students = students;
+  }
 }

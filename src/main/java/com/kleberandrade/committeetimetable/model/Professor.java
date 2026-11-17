@@ -23,8 +23,6 @@
  */
 package com.kleberandrade.committeetimetable.model;
 
-import java.io.Serializable;
-import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,110 +30,110 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
 public class Professor implements Serializable {
 
-    private static final long serialVersionUID = 0L;
+  private static final long serialVersionUID = 0L;
 
-    @Id
-    @jakarta.persistence.SequenceGenerator(name = "legacy_sequence", sequenceName = "hibernate_sequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "legacy_sequence")
-    private Long id;
+  @Id
+  @jakarta.persistence.SequenceGenerator(
+      name = "legacy_sequence",
+      sequenceName = "hibernate_sequence",
+      allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "legacy_sequence")
+  private Long id;
 
-    private String name;
+  private String name;
 
-    private String email;
+  private String email;
 
-    private String picture;
+  private String picture;
 
-    @ManyToOne
-    private Degree degree;
+  @ManyToOne private Degree degree;
 
-    @ManyToMany
-    private List<Expertise> expertises;
+  @ManyToMany private List<Expertise> expertises;
 
-    @OneToMany(mappedBy = "professor")
-    private List<Project> projects;
+  @OneToMany(mappedBy = "professor")
+  private List<Project> projects;
 
-    @ManyToMany(mappedBy = "professors")
-    private List<Committee> committees;
+  @ManyToMany(mappedBy = "professors")
+  private List<Committee> committees;
 
-    @OneToMany(mappedBy = "professor")
-    private List<Schedule> schedules;
+  @OneToMany(mappedBy = "professor")
+  private List<Schedule> schedules;
 
-    public Long getId() {
-        return id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public String getEmail() {
-        return email;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public void setEmail(String email) {
+    this.email = email;
+  }
 
-    public String getPicture() {
-        return picture;
-    }
+  public String getPicture() {
+    return picture;
+  }
 
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
+  public void setPicture(String picture) {
+    this.picture = picture;
+  }
 
-    public Degree getDegree() {
-        return degree;
-    }
+  public Degree getDegree() {
+    return degree;
+  }
 
-    public void setDegree(Degree degree) {
-        this.degree = degree;
-    }
+  public void setDegree(Degree degree) {
+    this.degree = degree;
+  }
 
-    public List<Expertise> getExpertises() {
-        return expertises;
-    }
+  public List<Expertise> getExpertises() {
+    return expertises;
+  }
 
-    public void setExpertises(List<Expertise> expertises) {
-        this.expertises = expertises;
-    }
+  public void setExpertises(List<Expertise> expertises) {
+    this.expertises = expertises;
+  }
 
-    public List<Project> getProjects() {
-        return projects;
-    }
+  public List<Project> getProjects() {
+    return projects;
+  }
 
-    public void setProjects(List<Project> projects) {
-        this.projects = projects;
-    }
+  public void setProjects(List<Project> projects) {
+    this.projects = projects;
+  }
 
-    public List<Committee> getCommittees() {
-        return committees;
-    }
+  public List<Committee> getCommittees() {
+    return committees;
+  }
 
-    public void setCommittees(List<Committee> committees) {
-        this.committees = committees;
-    }
+  public void setCommittees(List<Committee> committees) {
+    this.committees = committees;
+  }
 
-    public List<Schedule> getSchedules() {
-        return schedules;
-    }
+  public List<Schedule> getSchedules() {
+    return schedules;
+  }
 
-    public void setSchedules(List<Schedule> schedules) {
-        this.schedules = schedules;
-    }
-    
-    
-
+  public void setSchedules(List<Schedule> schedules) {
+    this.schedules = schedules;
+  }
 }

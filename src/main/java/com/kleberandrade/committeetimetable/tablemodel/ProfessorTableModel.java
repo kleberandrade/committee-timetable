@@ -22,14 +22,21 @@
  * THE SOFTWARE.
  */
 package com.kleberandrade.committeetimetable.tablemodel;
+
 import com.kleberandrade.committeetimetable.model.Professor;
 import java.util.List;
 
 public class ProfessorTableModel extends ColumnTableModel<Professor> {
-    public ProfessorTableModel(List<Professor> rows) {
-        super(rows, List.of(new Column<>("Id", Long.class, Professor::getId),
-                new Column<>("Nome", String.class, Professor::getName),
-                new Column<>("Email", String.class, Professor::getEmail),
-                new Column<>("Titulação", String.class, p -> p.getDegree() == null ? "" : p.getDegree().getName())));
-    }
+  public ProfessorTableModel(List<Professor> rows) {
+    super(
+        rows,
+        List.of(
+            new Column<>("Id", Long.class, Professor::getId),
+            new Column<>("Nome", String.class, Professor::getName),
+            new Column<>("Email", String.class, Professor::getEmail),
+            new Column<>(
+                "Titulação",
+                String.class,
+                p -> p.getDegree() == null ? "" : p.getDegree().getName())));
+  }
 }

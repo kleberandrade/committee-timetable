@@ -26,13 +26,15 @@ package com.kleberandrade.committeetimetable.dao;
 import com.kleberandrade.committeetimetable.model.Professor;
 
 /**
- *
  * @author Kleber de Oliveira Andrade
  */
 public class ProfessorDAO extends AbstractDAO<Professor> {
-    
-    public ProfessorDAO() { super(Professor.class); }
 
-    public ProfessorDAO(jakarta.persistence.EntityManagerFactory factory) { super(Professor.class, factory); }
-    
+  public ProfessorDAO() {
+    super(Professor.class);
+  }
+
+  public ProfessorDAO(jakarta.persistence.EntityManagerFactory factory) {
+    super(Professor.class, factory);
+  }
 }

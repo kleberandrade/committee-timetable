@@ -23,50 +23,52 @@
  */
 package com.kleberandrade.committeetimetable.model;
 
-import java.io.Serializable;
-import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import java.io.Serializable;
+import java.util.List;
 
 /**
- *
  * @author Kleber de Oliveira Andrade
  */
 @Entity
-public class Degree  implements Serializable {
+public class Degree implements Serializable {
 
-    private static final long serialVersionUID = 0L;
+  private static final long serialVersionUID = 0L;
 
-    @Id
-    @jakarta.persistence.SequenceGenerator(name = "legacy_sequence", sequenceName = "hibernate_sequence", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "legacy_sequence")
-    private Long id;
-    
-    private String name;
-    
-    @OneToMany(mappedBy = "degree")
-    private List<Professor> professors;
+  @Id
+  @jakarta.persistence.SequenceGenerator(
+      name = "legacy_sequence",
+      sequenceName = "hibernate_sequence",
+      allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "legacy_sequence")
+  private Long id;
 
-    public Long getId() {
-        return id;
-    }
+  private String name;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  @OneToMany(mappedBy = "degree")
+  private List<Professor> professors;
 
-    public String getName() {
-        return name;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public List<Professor> getProfessors() {
-        return professors;
-    }
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public List<Professor> getProfessors() {
+    return professors;
+  }
 }

@@ -26,25 +26,23 @@ package com.kleberandrade.committeetimetable.tablemodel;
 import java.util.List;
 
 /**
- *
  * @author Kleber de Oliveira Andrade
  */
 public interface IGenericTableModel<T> {
 
-    void reload(List<T> t);
+  void reload(List<T> t);
 
-    T get(int rowIndex);
+  T get(int rowIndex);
 
-    void add(T t);
+  void add(T t);
 
-    void addList(List<T> t);
+  void addList(List<T> t);
 
-    void update(int rowIndex, T t);
+  void update(int rowIndex, T t);
 
-    void delete(int rowIndex);
+  void delete(int rowIndex);
 
-    void clear();
+  void clear();
 
-    boolean isEmpty();
-
+  boolean isEmpty();
 }

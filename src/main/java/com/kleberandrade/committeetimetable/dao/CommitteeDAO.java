@@ -26,13 +26,15 @@ package com.kleberandrade.committeetimetable.dao;
 import com.kleberandrade.committeetimetable.model.Committee;
 
 /**
- *
  * @author Kleber de Oliveira Andrade
  */
 public class CommitteeDAO extends AbstractDAO<Committee> {
 
-    public CommitteeDAO() { super(Committee.class); }
+  public CommitteeDAO() {
+    super(Committee.class);
+  }
 
-    public CommitteeDAO(jakarta.persistence.EntityManagerFactory factory) { super(Committee.class, factory); }
-
+  public CommitteeDAO(jakarta.persistence.EntityManagerFactory factory) {
+    super(Committee.class, factory);
+  }
 }

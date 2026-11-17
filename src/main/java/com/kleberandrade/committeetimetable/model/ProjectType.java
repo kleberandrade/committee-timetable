@@ -23,56 +23,54 @@
  */
 package com.kleberandrade.committeetimetable.model;
 
-import java.io.Serializable;
-import java.util.List;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.io.Serializable;
+import java.util.List;
 
 /**
- *
  * @author Kleber de Oliveira Andrade
  */
 @Entity
 @Table(name = "project_type")
 public class ProjectType implements Serializable {
 
-    private static final long serialVersionUID = 0L;
+  private static final long serialVersionUID = 0L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    private String name;
+  private String name;
 
-    @OneToMany(mappedBy = "type")
-    private List<Project> projects;
+  @OneToMany(mappedBy = "type")
+  private List<Project> projects;
 
-    public Long getId() {
-        return id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public List<Project> getProjects() {
-        return projects;
-    }
+  public List<Project> getProjects() {
+    return projects;
+  }
 
-    public void setProjects(List<Project> projects) {
-        this.projects = projects;
-    }
-
+  public void setProjects(List<Project> projects) {
+    this.projects = projects;
+  }
 }

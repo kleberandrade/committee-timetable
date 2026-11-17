@@ -22,12 +22,16 @@
  * THE SOFTWARE.
  */
 package com.kleberandrade.committeetimetable.tablemodel;
+
 import com.kleberandrade.committeetimetable.model.Degree;
 import java.util.List;
 
 public class DegreeTableModel extends ColumnTableModel<Degree> {
-    public DegreeTableModel(List<Degree> rows) {
-        super(rows, List.of(new Column<>("Id", Long.class, Degree::getId),
-                new Column<>("Nome", String.class, Degree::getName)));
-    }
+  public DegreeTableModel(List<Degree> rows) {
+    super(
+        rows,
+        List.of(
+            new Column<>("Id", Long.class, Degree::getId),
+            new Column<>("Nome", String.class, Degree::getName)));
+  }
 }

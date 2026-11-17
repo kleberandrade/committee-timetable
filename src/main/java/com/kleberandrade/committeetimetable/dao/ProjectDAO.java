@@ -26,13 +26,15 @@ package com.kleberandrade.committeetimetable.dao;
 import com.kleberandrade.committeetimetable.model.Project;
 
 /**
- *
  * @author Kleber de Oliveira Andrade
  */
 public class ProjectDAO extends AbstractDAO<Project> {
 
-    public ProjectDAO() { super(Project.class); }
+  public ProjectDAO() {
+    super(Project.class);
+  }
 
-    public ProjectDAO(jakarta.persistence.EntityManagerFactory factory) { super(Project.class, factory); }
-
+  public ProjectDAO(jakarta.persistence.EntityManagerFactory factory) {
+    super(Project.class, factory);
+  }
 }

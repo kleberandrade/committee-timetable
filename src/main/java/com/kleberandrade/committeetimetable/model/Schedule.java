@@ -23,89 +23,84 @@
  */
 package com.kleberandrade.committeetimetable.model;
 
-import java.io.Serializable;
-import java.time.LocalTime;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import java.io.Serializable;
+import java.time.LocalTime;
 
 /**
- *
  * @author Kleber de Oliveira Andrade
  */
 @Entity
 public class Schedule implements Serializable {
 
-    private static final long serialVersionUID = 0L;
+  private static final long serialVersionUID = 0L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    private Integer day;
+  private Integer day;
 
-    @Column(name = "start_time")
-    private LocalTime startTime;
+  @Column(name = "start_time")
+  private LocalTime startTime;
 
-    @Column(name = "end_time")
-    private LocalTime endTime;
+  @Column(name = "end_time")
+  private LocalTime endTime;
 
-    @ManyToOne
-    private Course course;
+  @ManyToOne private Course course;
 
-    @ManyToOne
-    private Professor professor;
+  @ManyToOne private Professor professor;
 
-    public Long getId() {
-        return id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public Integer getDay() {
-        return day;
-    }
+  public Integer getDay() {
+    return day;
+  }
 
-    public void setDay(Integer day) {
-        this.day = day;
-    }
+  public void setDay(Integer day) {
+    this.day = day;
+  }
 
-    public LocalTime getStartTime() {
-        return startTime;
-    }
+  public LocalTime getStartTime() {
+    return startTime;
+  }
 
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
-    }
+  public void setStartTime(LocalTime startTime) {
+    this.startTime = startTime;
+  }
 
-    public LocalTime getEndTime() {
-        return endTime;
-    }
+  public LocalTime getEndTime() {
+    return endTime;
+  }
 
-    public void setEndTime(LocalTime endTime) {
-        this.endTime = endTime;
-    }
+  public void setEndTime(LocalTime endTime) {
+    this.endTime = endTime;
+  }
 
-    public Course getCourse() {
-        return course;
-    }
+  public Course getCourse() {
+    return course;
+  }
 
-    public void setCourse(Course course) {
-        this.course = course;
-    }
+  public void setCourse(Course course) {
+    this.course = course;
+  }
 
-    public Professor getProfessor() {
-        return professor;
-    }
+  public Professor getProfessor() {
+    return professor;
+  }
 
-    public void setProfessor(Professor professor) {
-        this.professor = professor;
-    }
-    
-    
+  public void setProfessor(Professor professor) {
+    this.professor = professor;
+  }
 }
