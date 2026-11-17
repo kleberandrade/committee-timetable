@@ -25,13 +25,13 @@ package com.kleberandrade.committeetimetable.model;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Professor implements Serializable {
@@ -39,7 +39,8 @@ public class Professor implements Serializable {
     private static final long serialVersionUID = 0L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @jakarta.persistence.SequenceGenerator(name = "legacy_sequence", sequenceName = "hibernate_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "legacy_sequence")
     private Long id;
 
     private String name;

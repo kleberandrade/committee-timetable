@@ -31,7 +31,8 @@ import com.kleberandrade.committeetimetable.model.Project;
  */
 public class ProjectDAO extends AbstractDAO<Project> {
 
-    public ProjectDAO() {
-    }
+    public ProjectDAO() { super(Project.class); }
+
+    public ProjectDAO(jakarta.persistence.EntityManagerFactory factory) { super(Project.class, factory); }
 
 }

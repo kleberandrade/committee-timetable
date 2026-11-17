@@ -39,7 +39,6 @@ public abstract class GenericTableModel<T> extends AbstractTableModel implements
     protected Class<?>[] columnsType;
 
     public GenericTableModel(List<T> list) {
-        this.list = list;
         reload(list);
     }
 
@@ -74,7 +73,7 @@ public abstract class GenericTableModel<T> extends AbstractTableModel implements
 
     @Override
     public void reload(List<T> t) {
-        this.list = t;
+        this.list = t == null ? new java.util.ArrayList<>() : new java.util.ArrayList<>(t);
         fireTableDataChanged();
     }
 
@@ -92,9 +91,10 @@ public abstract class GenericTableModel<T> extends AbstractTableModel implements
 
     @Override
     public void addList(List<T> t) {
+        if (t.isEmpty()) return;
         int index = getRowCount();
         list.addAll(t);
-        fireTableRowsInserted(index, index + t.size());
+        fireTableRowsInserted(index, index + t.size() - 1);
     }
 
     @Override

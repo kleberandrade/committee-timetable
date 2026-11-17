@@ -31,7 +31,8 @@ import com.kleberandrade.committeetimetable.model.Professor;
  */
 public class ProfessorDAO extends AbstractDAO<Professor> {
     
-    public ProfessorDAO() {
-    }
+    public ProfessorDAO() { super(Professor.class); }
+
+    public ProfessorDAO(jakarta.persistence.EntityManagerFactory factory) { super(Professor.class, factory); }
     
 }

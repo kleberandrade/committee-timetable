@@ -58,9 +58,9 @@ public class StudentTableModel extends GenericTableModel<Student> {
             case COL_RA:
                 return student.getRa();
             case COL_COURSE:
-                return student.getCourse().getName();
+                return student.getCourse() == null ? "" : student.getCourse().getName();
             case COL_PROJECT:
-                return student.getProject().getTitle();
+                return student.getProject() == null ? "" : student.getProject().getTitle();
             default:
                 break;
         }

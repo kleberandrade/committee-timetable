@@ -1,0 +1,20 @@
+name: committee-timetable
+services:
+  db:
+    image: postgres:17.7-alpine
+    environment:
+      POSTGRES_DB: committee_demo
+      POSTGRES_USER: committee_demo
+      POSTGRES_PASSWORD: local_demo_only
+    ports:
+      - "127.0.0.1:55439:5432"
+    volumes:
+      - committee-data:/var/lib/postgresql/data
+      - ./db/migrations:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U committee_demo -d committee_demo"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+volumes:
+  committee-data:

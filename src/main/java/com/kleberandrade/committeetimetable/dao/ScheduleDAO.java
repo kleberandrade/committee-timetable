@@ -31,7 +31,8 @@ import com.kleberandrade.committeetimetable.model.Schedule;
  */
 public class ScheduleDAO extends AbstractDAO<Schedule> {
 
-    public ScheduleDAO() {
-    }
+    public ScheduleDAO() { super(Schedule.class); }
+
+    public ScheduleDAO(jakarta.persistence.EntityManagerFactory factory) { super(Schedule.class, factory); }
 
 }

@@ -54,7 +54,7 @@ public class ProfessorTableModel extends GenericTableModel<Professor> {
             case COL_EMAIL:
                 return professor.getEmail();
             case COL_DEGREE:
-                return professor.getDegree().getName();
+                return professor.getDegree() == null ? "" : professor.getDegree().getName();
             default:
                 break;
         }

@@ -31,7 +31,8 @@ import com.kleberandrade.committeetimetable.model.Committee;
  */
 public class CommitteeDAO extends AbstractDAO<Committee> {
 
-    public CommitteeDAO() {
-    }
+    public CommitteeDAO() { super(Committee.class); }
+
+    public CommitteeDAO(jakarta.persistence.EntityManagerFactory factory) { super(Committee.class, factory); }
 
 }

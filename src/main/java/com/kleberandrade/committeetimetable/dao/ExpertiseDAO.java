@@ -31,7 +31,8 @@ import com.kleberandrade.committeetimetable.model.Expertise;
  */
 public class ExpertiseDAO extends AbstractDAO<Expertise> {
 
-    public ExpertiseDAO() {
-    }
+    public ExpertiseDAO() { super(Expertise.class); }
+
+    public ExpertiseDAO(jakarta.persistence.EntityManagerFactory factory) { super(Expertise.class, factory); }
     
 }

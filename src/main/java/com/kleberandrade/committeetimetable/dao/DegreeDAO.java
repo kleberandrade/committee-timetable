@@ -31,7 +31,8 @@ import com.kleberandrade.committeetimetable.model.Degree;
  */
 public class DegreeDAO extends AbstractDAO<Degree> {
 
-    public DegreeDAO() {
-    }
+    public DegreeDAO() { super(Degree.class); }
+
+    public DegreeDAO(jakarta.persistence.EntityManagerFactory factory) { super(Degree.class, factory); }
 
 }

@@ -31,7 +31,8 @@ import com.kleberandrade.committeetimetable.model.Student;
  */
 public class StudentDAO extends AbstractDAO<Student> {
 
-    public StudentDAO() {
-    }
+    public StudentDAO() { super(Student.class); }
+
+    public StudentDAO(jakarta.persistence.EntityManagerFactory factory) { super(Student.class, factory); }
 
 }
