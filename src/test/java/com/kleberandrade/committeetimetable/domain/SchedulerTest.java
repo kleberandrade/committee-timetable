@@ -46,6 +46,31 @@ class SchedulerTest {
         assertEquals(Status.LIMIT_REACHED,result.status());
         assertTrue(result.assignments().isEmpty());
     }
+    @Test void rejectsBlankIdentifiersAndNonPositiveBudgets() {
+        assertThrows(IllegalArgumentException.class, () -> new Person(Role.PROFESSOR," "));
+        assertThrows(IllegalArgumentException.class, () -> new Person(Role.STUDENT,null));
+        assertThrows(IllegalArgumentException.class, () -> new Scheduler().solve(request(List.of(),List.of()),0));
+        assertThrows(IllegalArgumentException.class, () -> new Scheduler().solve(request(List.of(),List.of()),-1));
+    }
+    @Test void differentDatesNeverConflictAndEndBoundariesMatter() {
+        Window next = new Window(morning.day().plusDays(1),morning.start(),morning.end());
+        assertFalse(morning.contains(next)); assertFalse(morning.overlaps(next));
+        assertFalse(window("09:00","10:00").contains(window("09:00","10:01")));
+        assertFalse(window("09:00","10:00").overlaps(window("10:00","11:00")));
+        assertTrue(morning.contains(window("09:00","11:00")));
+    }
+    @Test void backtracksWhenFirstCandidatePreventsACompleteSchedule() {
+        var a = new Defense("a","A",60,"p1",Set.of("p1","p2","p3"),Set.of("s1"));
+        var b = new Defense("b","B",30,"p1",Set.of("p1","p2","p3"),Set.of("s2"));
+        var r = request(List.of(a,b),List.of(slot("09:00","10:00","R1"),slot("10:00","11:00","R1"),slot("09:00","09:30","R2")));
+        var availability = new HashMap<>(r.availability());
+        availability.put(new Person(Role.STUDENT,"s2"),List.of(window("09:00","10:00")));
+        var result = new Scheduler().solve(new Request(r.defenses(),r.slots(),availability),100);
+        assertEquals(Status.FEASIBLE,result.status());
+        assertEquals(2,result.assignments().size());
+        assertTrue(result.visited() > 3);
+        assertFalse(Scheduler.conflicts(result.assignments().get(0),result.assignments().get(1)));
+    }
     @Test void validatesCompositionAndBoundaries() {
         assertThrows(IllegalArgumentException.class, () -> window("10:00","09:00"));
         assertThrows(IllegalArgumentException.class, () -> new Defense("a","A",0,"p1",Set.of("p1","p2","p3"),Set.of("s1")));

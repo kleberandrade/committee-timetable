@@ -22,42 +22,14 @@
  * THE SOFTWARE.
  */
 package com.kleberandrade.committeetimetable.tablemodel;
-
 import com.kleberandrade.committeetimetable.model.Professor;
 import java.util.List;
 
-/**
- *
- * @author Kleber de Oliveira Andrade
- */
-public class ProfessorTableModel extends GenericTableModel<Professor> {
-
-    private static final int COL_ID = 0;
-    private static final int COL_NAME = 1;
-    private static final int COL_EMAIL = 2;
-    private static final int COL_DEGREE = 3;
-
-    public ProfessorTableModel(List<Professor> professors) {
-        super(professors);
-        this.columns = new String[]{"Id", "Nome", "Email", "Graduação"};
-        this.columnsType = new Class<?>[]{Long.class, String.class, String.class, String.class};
-    }
-
-    @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
-        Professor professor = get(rowIndex);
-        switch (columnIndex) {
-            case COL_ID:
-                return professor.getId();
-            case COL_NAME:
-                return professor.getName();
-            case COL_EMAIL:
-                return professor.getEmail();
-            case COL_DEGREE:
-                return professor.getDegree() == null ? "" : professor.getDegree().getName();
-            default:
-                break;
-        }
-        return null;
+public class ProfessorTableModel extends ColumnTableModel<Professor> {
+    public ProfessorTableModel(List<Professor> rows) {
+        super(rows, List.of(new Column<>("Id", Long.class, Professor::getId),
+                new Column<>("Nome", String.class, Professor::getName),
+                new Column<>("Email", String.class, Professor::getEmail),
+                new Column<>("Titulação", String.class, p -> p.getDegree() == null ? "" : p.getDegree().getName())));
     }
 }

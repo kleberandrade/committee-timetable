@@ -22,36 +22,12 @@
  * THE SOFTWARE.
  */
 package com.kleberandrade.committeetimetable.tablemodel;
-
 import com.kleberandrade.committeetimetable.model.Degree;
 import java.util.List;
 
-/**
- *
- * @author Kleber de Oliveira Andrade
- */
-public class DegreeTableModel extends GenericTableModel<Degree> {
-
-    private static final int COL_ID = 0;
-    private static final int COL_NAME = 1;
-    
-    public DegreeTableModel(List<Degree> degrees) {
-        super(degrees);
-        this.columns = new String[]{"Id", "Nome"};
-        this.columnsType = new Class<?>[]{Long.class, String.class};
-    }
-
-    @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
-        Degree degree = get(rowIndex);
-        switch (columnIndex) {
-            case COL_ID:
-                return degree.getId();
-            case COL_NAME:
-                return degree.getName();
-            default:
-                break;
-        }
-        return null;
+public class DegreeTableModel extends ColumnTableModel<Degree> {
+    public DegreeTableModel(List<Degree> rows) {
+        super(rows, List.of(new Column<>("Id", Long.class, Degree::getId),
+                new Column<>("Nome", String.class, Degree::getName)));
     }
 }

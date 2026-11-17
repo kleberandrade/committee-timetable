@@ -44,10 +44,6 @@ public abstract class GenericTableModel<T> extends AbstractTableModel implements
 
     @Override
     public int getRowCount() {
-        if (list == null) {
-            return 0;
-        }
-
         return list.size();
     }
 

@@ -22,48 +22,16 @@
  * THE SOFTWARE.
  */
 package com.kleberandrade.committeetimetable.tablemodel;
-
 import com.kleberandrade.committeetimetable.model.Student;
 import java.util.List;
 
-/**
- *
- * @author Kleber de Oliveira Andrade
- */
-public class StudentTableModel extends GenericTableModel<Student> {
-
-    private static final int COL_ID = 0;
-    private static final int COL_NAME = 1;
-    private static final int COL_EMAIL = 2;
-    private static final int COL_RA = 3;
-    private static final int COL_COURSE = 4;
-    private static final int COL_PROJECT = 5;
-
-    public StudentTableModel(List<Student> students) {
-        super(students);
-        this.columns = new String[]{"Id", "Nome", "Email", "RA", "Curso", "Projeto"};
-        this.columnsType = new Class<?>[]{Long.class, String.class, String.class, String.class, String.class, String.class};
-    }
-
-    @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
-        Student student = get(rowIndex);
-        switch (columnIndex) {
-            case COL_ID:
-                return student.getId();
-            case COL_NAME:
-                return student.getName();
-            case COL_EMAIL:
-                return student.getEmail();
-            case COL_RA:
-                return student.getRa();
-            case COL_COURSE:
-                return student.getCourse() == null ? "" : student.getCourse().getName();
-            case COL_PROJECT:
-                return student.getProject() == null ? "" : student.getProject().getTitle();
-            default:
-                break;
-        }
-        return null;
+public class StudentTableModel extends ColumnTableModel<Student> {
+    public StudentTableModel(List<Student> rows) {
+        super(rows, List.of(new Column<>("Id", Long.class, Student::getId),
+                new Column<>("Nome", String.class, Student::getName),
+                new Column<>("Email", String.class, Student::getEmail),
+                new Column<>("RA", String.class, Student::getRa),
+                new Column<>("Curso", String.class, s -> s.getCourse() == null ? "" : s.getCourse().getName()),
+                new Column<>("Projeto", String.class, s -> s.getProject() == null ? "" : s.getProject().getTitle())));
     }
 }

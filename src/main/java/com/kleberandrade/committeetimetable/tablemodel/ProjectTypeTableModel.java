@@ -22,36 +22,12 @@
  * THE SOFTWARE.
  */
 package com.kleberandrade.committeetimetable.tablemodel;
-
 import com.kleberandrade.committeetimetable.model.ProjectType;
 import java.util.List;
 
-/**
- *
- * @author Kleber de Oliveira Andrade
- */
-public class ProjectTypeTableModel extends GenericTableModel<ProjectType> {
-
-    private static final int COL_ID = 0;
-    private static final int COL_NAME = 1;
-
-    public ProjectTypeTableModel(List<ProjectType> projectTypes) {
-        super(projectTypes);
-        this.columns = new String[]{"Id", "Nome"};
-        this.columnsType = new Class<?>[]{Long.class, String.class};
-    }
-
-    @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
-        ProjectType projectType = get(rowIndex);
-        switch (columnIndex) {
-            case COL_ID:
-                return projectType.getId();
-            case COL_NAME:
-                return projectType.getName();
-            default:
-                break;
-        }
-        return null;
+public class ProjectTypeTableModel extends ColumnTableModel<ProjectType> {
+    public ProjectTypeTableModel(List<ProjectType> rows) {
+        super(rows, List.of(new Column<>("Id", Long.class, ProjectType::getId),
+                new Column<>("Nome", String.class, ProjectType::getName)));
     }
 }

@@ -21,9 +21,10 @@ public final class EntityManagerUtil {
         return value;
     }
     public static synchronized EntityManager getEntityManager() {
-        if (factory == null || !factory.isOpen()) factory = createFactory(System.getenv());
+        if (needsFactory()) factory = createFactory(System.getenv());
         return factory.createEntityManager();
     }
+    private static boolean needsFactory() { return factory == null || !factory.isOpen(); }
     public static synchronized void close() {
         if (factory != null) factory.close();
         factory = null;

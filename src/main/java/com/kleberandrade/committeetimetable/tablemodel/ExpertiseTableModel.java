@@ -22,37 +22,12 @@
  * THE SOFTWARE.
  */
 package com.kleberandrade.committeetimetable.tablemodel;
-
 import com.kleberandrade.committeetimetable.model.Expertise;
 import java.util.List;
 
-/**
- *
- * @author Kleber de Oliveira Andrade
- */
-public class ExpertiseTableModel extends GenericTableModel<Expertise> {
-
-    private static final int COL_ID = 0;
-    private static final int COL_NAME = 1;
-
-    public ExpertiseTableModel(List<Expertise> expertises) {
-        super(expertises);
-        this.columns = new String[]{"Id", "Nome"};
-        this.columnsType = new Class<?>[]{Long.class, String.class};
+public class ExpertiseTableModel extends ColumnTableModel<Expertise> {
+    public ExpertiseTableModel(List<Expertise> rows) {
+        super(rows, List.of(new Column<>("Id", Long.class, Expertise::getId),
+                new Column<>("Nome", String.class, Expertise::getName)));
     }
-
-    @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
-        Expertise expertise = get(rowIndex);
-        switch (columnIndex) {
-            case COL_ID:
-                return expertise.getId();
-            case COL_NAME:
-                return expertise.getName();
-            default:
-                break;
-        }
-        return null;
-    }
-
 }

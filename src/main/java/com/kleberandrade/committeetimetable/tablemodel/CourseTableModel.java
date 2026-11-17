@@ -22,37 +22,12 @@
  * THE SOFTWARE.
  */
 package com.kleberandrade.committeetimetable.tablemodel;
-
 import com.kleberandrade.committeetimetable.model.Course;
 import java.util.List;
 
-/**
- *
- * @author Kleber de Oliveira Andrade
- */
-public class CourseTableModel extends GenericTableModel<Course> {
-
-    private static final int COL_ID = 0;
-    private static final int COL_NAME = 1;
-
-    public CourseTableModel(List<Course> courses) {
-        super(courses);
-        this.columns = new String[]{"Id", "Nome"};
-        this.columnsType = new Class<?>[]{Long.class, String.class};
+public class CourseTableModel extends ColumnTableModel<Course> {
+    public CourseTableModel(List<Course> rows) {
+        super(rows, List.of(new Column<>("Id", Long.class, Course::getId),
+                new Column<>("Nome", String.class, Course::getName)));
     }
-
-    @Override
-    public Object getValueAt(int rowIndex, int columnIndex) {
-        Course course = get(rowIndex);
-        switch (columnIndex) {
-            case COL_ID:
-                return course.getId();
-            case COL_NAME:
-                return course.getName();
-            default:
-                break;
-        }
-        return null;
-    }
-
 }
