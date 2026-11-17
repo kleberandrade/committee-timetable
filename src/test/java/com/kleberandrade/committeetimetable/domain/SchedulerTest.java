@@ -71,6 +71,13 @@ class SchedulerTest {
         assertTrue(result.visited() > 3);
         assertFalse(Scheduler.conflicts(result.assignments().get(0),result.assignments().get(1)));
     }
+    @Test void rejectsInstancesBeyondDocumentedMemoryAndRecursionLimits() {
+        var defenses = java.util.stream.IntStream.range(0,201).mapToObj(i -> defense("d"+i,"p1","s1")).toList();
+        assertThrows(IllegalArgumentException.class, () -> request(defenses,List.of()));
+        assertThrows(IllegalArgumentException.class, () -> request(List.of(),Collections.nCopies(5001,slot("09:00","10:00","R"))));
+        assertEquals(200,request(defenses.subList(0,200),List.of()).defenses().size());
+        assertEquals(5000,request(List.of(),Collections.nCopies(5000,slot("09:00","10:00","R"))).slots().size());
+    }
     @Test void validatesCompositionAndBoundaries() {
         assertThrows(IllegalArgumentException.class, () -> window("10:00","09:00"));
         assertThrows(IllegalArgumentException.class, () -> new Defense("a","A",0,"p1",Set.of("p1","p2","p3"),Set.of("s1")));

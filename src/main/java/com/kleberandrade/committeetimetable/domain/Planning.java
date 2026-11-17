@@ -2,11 +2,12 @@ package com.kleberandrade.committeetimetable.domain;
 
 import java.time.*;
 import java.util.*;
-import java.util.stream.Stream;
 
 /** Immutable scheduling vocabulary. Availability windows and reservations are half-open. */
 public final class Planning {
     private Planning() {}
+    public static final int MAX_DEFENSES = 200;
+    public static final int MAX_SLOTS = 5000;
     public static String text(String value) {
         if (value == null || value.isBlank()) throw new IllegalArgumentException("Identifiers and titles must not be blank");
         return value.strip();
@@ -54,6 +55,8 @@ public final class Planning {
     }
     public record Request(List<Defense> defenses, List<Slot> slots, Map<Person,List<Window>> availability) {
         public Request {
+            if (defenses.size() > MAX_DEFENSES) throw new IllegalArgumentException("At most " + MAX_DEFENSES + " defenses are supported");
+            if (slots.size() > MAX_SLOTS) throw new IllegalArgumentException("At most " + MAX_SLOTS + " candidate slots are supported");
             defenses = List.copyOf(defenses); slots = List.copyOf(slots);
             var copied = new HashMap<Person,List<Window>>();
             availability.forEach((person, windows) -> copied.put(Objects.requireNonNull(person), List.copyOf(windows)));

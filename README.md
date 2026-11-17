@@ -41,7 +41,7 @@ The first command schedules three synthetic defenses. CLI output refuses to over
 
 ## Dataset format
 
-Copy `examples/feasible` and edit the UTF-8 files. Headers and column order are exact; values use tabs, with comma-separated participant IDs. No TSV quoting, blank lines or comments are supported. A file is limited to 1 MiB.
+Copy `examples/feasible` and edit the UTF-8 files. Headers and column order are exact; values use tabs, with comma-separated participant IDs. No TSV quoting, blank lines or comments are supported. A file is limited to 1 MiB; an instance supports at most **200 defenses** and **5,000 candidate slots** to bound recursion and candidate storage.
 
 - `defenses.tsv`: `id`, `title`, `minutes`, `advisor`, `professors`, `students`.
 - `slots.tsv`: `date`, `start`, `end`, `room`.

@@ -3,7 +3,7 @@
 ## Executed locally
 
 - Java 21 (Homebrew OpenJDK), Maven 3.9.11 via the generated Wrapper, macOS.
-- `./mvnw clean verify` and subsequent `verify` after desktop corrections: **19 tests, zero failures/errors/skips** with `COMMITTEE_DB_TEST=true` and the isolated PostgreSQL running. Seven test classes cover scheduling, file boundaries/CSV, CLI behavior, presentation text, Swing table models and persistence.
+- `./mvnw clean verify` and subsequent `verify` after desktop corrections: **20 tests, zero failures/errors/skips** with `COMMITTEE_DB_TEST=true` and the isolated PostgreSQL running. Seven test classes cover scheduling, file boundaries/CSV, CLI behavior, presentation text, Swing table models and persistence.
 - PostgreSQL 17.7 in Compose project `committee-timetable`, loopback port 55439, own named volume. Hibernate schema validation, ProjectType CRUD, failed foreign-key deletion rollback/recovery and relationship/time round-trips all executed. No existing user database was used.
 - Packaged JAR CLI: feasible example produces 3 defenses/4 visited nodes; infeasible example exits 2 with no partial schedule. CSV export and refusal to overwrite are behavior-tested.
 - Repeated packaging with pinned output timestamps produced identical SHA-256 hashes (see work log). This checks same-environment artifact reproducibility, not universal byte identity across all JDK vendors/operating systems.
@@ -22,7 +22,7 @@
 
 ## Environment incident
 
-The disk briefly ran out of space and OrbStack stopped with an I/O/full-disk alert. An intermediate rerun failed to connect to PostgreSQL. After disk space returned, `orbctl start` and `docker compose up -d --wait` recovered the existing project database, and the full 19-test suite passed again. No global SDK changes, license acceptance, database reset or deletion of other projects was performed.
+The disk briefly ran out of space and OrbStack stopped with an I/O/full-disk alert. An intermediate rerun failed to connect to PostgreSQL. After disk space returned, `orbctl start` and `docker compose up -d --wait` recovered the existing project database, and the full 20-test suite passed again. No global SDK changes, license acceptance, database reset or deletion of other projects was performed.
 
 ## Scope limits
 
