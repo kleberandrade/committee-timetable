@@ -1,73 +1,112 @@
 # Committee Timetable
 
-![Language: Java](https://img.shields.io/badge/Language-Java-555555)
-[![Build: Maven](https://img.shields.io/badge/Build-Maven-C71A36)](https://github.com/kleberandrade/committee-timetable/blob/master/pom.xml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-555555)](https://github.com/kleberandrade/committee-timetable/blob/master/LICENSE)
+![Java 21](https://img.shields.io/badge/Java-21-437291)
+![Hibernate 7.4](https://img.shields.io/badge/Hibernate-7.4-59666C)
+![PostgreSQL 17](https://img.shields.io/badge/PostgreSQL-17-4169E1)
+[![CI](https://github.com/kleberandrade/committee-timetable/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/kleberandrade/committee-timetable/actions/workflows/ci.yml)
+[![MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
-Java project for modeling final-project defense committees, schedules and participant availability.
+Plan final-project defense committees with a Java desktop application or a reproducible headless CLI. Supply fixed committees, participant availability and candidate room slots; the backtracking solver finds a feasible schedule or explicitly reports infeasibility/search exhaustion.
 
-## Getting started
+The original repository provided a JPA model, DAOs and Swing table models. Version 2 adds the actual scheduler, file boundary, desktop window, tests and a database baseline. It does **not** claim global optimality or automatically assign examiners.
 
-- Import the repository as an existing Maven project. Review its Java version, database configuration and dependencies before building.
+## Requirements
 
-- For projects with a database or serial device, configure those dependencies explicitly; this guide does not start external services or equipment.
+- JDK **21** and Maven **3.9.11** (or use the included Maven Wrapper).
+- A graphical desktop for Swing. CLI and unit tests work headlessly.
+- Optional: Docker Compose for the isolated PostgreSQL **17.7** integration database. Scheduling itself needs no database.
+- Internet access for the first Maven dependency download; subsequent offline builds need a populated local cache.
 
-## Recorded requirements
+The dependency/plugin versions are pinned in `pom.xml`: Hibernate ORM 7.4.16.Final (Jakarta Persistence 3.2), PostgreSQL JDBC 42.7.14 and JUnit Jupiter 5.14.2. The [Hibernate compatibility matrix](https://hibernate.org/orm/releases/) documents Java 21 support.
 
-- A JDK compatible with the compiler settings in [`pom.xml`](https://github.com/kleberandrade/committee-timetable/blob/master/pom.xml) and Maven.
+## Build and run
 
-## Repository map
+```sh
+./mvnw clean verify
+java -jar target/CommitteeTimetable-2.0.0-app.jar --gui
+```
 
-- [pom.xml](https://github.com/kleberandrade/committee-timetable/blob/master/pom.xml)
-- [src](https://github.com/kleberandrade/committee-timetable/tree/master/src)
+Run from the repository root so the example paths resolve. In the desktop window select **Feasible example**, press **Generate schedule**, inspect the sortable timetable and **Export CSV…**. Select **Infeasible example** to see the diagnostic state. **Open dataset…** selects a directory containing your three TSV files. Files and search run in a background worker; empty, loading, invalid-input, infeasible and search-limit states have distinct text. Buttons have keyboard mnemonics, controls have accessible names, and errors remain visible without modal interruption.
 
-## Validation status
+```sh
+java -Djava.awt.headless=true -jar target/CommitteeTimetable-2.0.0-app.jar \
+  --input examples/feasible --output /tmp/committee-schedule.csv
+java -Djava.awt.headless=true -jar target/CommitteeTimetable-2.0.0-app.jar \
+  --input examples/infeasible
+```
 
-This update documents the tracked source and project metadata. It does not certify a successful build, device test or compatibility with a current toolchain. Follow any project-specific validation instructions in the original material.
+The first command schedules three synthetic defenses. CLI output refuses to overwrite an existing CSV. Exit codes: **0** feasible/help, **1** invalid input or I/O error, **2** proven infeasible for the supplied candidate set, **3** search limit. `--help` prints the command format. No real participant data is included.
 
-## License and attribution
+![Running Swing desktop](figures/desktop-feasible.png)
 
-See [LICENSE](https://github.com/kleberandrade/committee-timetable/blob/master/LICENSE) and any notices accompanying third-party code and assets. This documentation update does not change licensing or authorship.
+## Dataset format
 
----
+Copy `examples/feasible` and edit the UTF-8 files. Headers and column order are exact; values use tabs, with comma-separated participant IDs. No TSV quoting, blank lines or comments are supported. A file is limited to 1 MiB.
 
-## Original project material
+- `defenses.tsv`: `id`, `title`, `minutes`, `advisor`, `professors`, `students`.
+- `slots.tsv`: `date`, `start`, `end`, `room`.
+- `availability.tsv`: `role`, `id`, `date`, `start`, `end`; role is `PROFESSOR` or `STUDENT`.
 
-# Final Project Committee Timetabling Problem 
+Use ISO dates (`2030-06-10`) and local times (`09:00`). Windows must end after they start on the same date. A defense has a positive duration, at least one student and **exactly three distinct professors including its advisor**. Every referenced participant requires explicit availability; unknown availability is never assumed free. Repeated rows in availability represent alternative windows; a defense must fit fully within one window per participant. IDs are trimmed and case-sensitive; professors and students have separate namespaces.
 
-Todo final de curso, gestores de instituiçòes de ensino se deparam com um típico problema: montar as grades horárias das defesas do projeto final de curso considerando as restrições de disponibilidade horária de todos os envolvidos.
+A slot is a **candidate start time and room reservation window**, not a range of arbitrary possible starts. For 09:00 and 09:15 alternatives, supply two rows. The defense starts at the candidate start and reserves only its duration. Adjacent defenses are allowed: intervals are `[start, end)`. Multiple slots may overlap; the solver still rejects overlapping reservations of the same room, professor or student. Different rooms can run in parallel when participants are disjoint.
 
-## Dependências
+## Architecture and glossary
 
-- JPA 2.1
-- Hibernate 5.4
-- PostgreSQL 11.1.1
+- `domain/Planning`: immutable, validated values. A **defense** is a project and its fixed committee/students; a **window** is local availability on one date; a **slot** pairs a window with a room; an **assignment** reserves a slot for a defense.
+- `domain/Scheduler`: pure, deterministic backtracking over supplied candidates, ordered by fewest eligible slots. Each call owns its search state. Budget: **100,000 visited nodes** in CLI/GUI. `solve(request, limit)` lets embedding applications choose another positive limit.
+- `io/PlanFiles`: strict input parsing with file/line diagnostics and escaped CSV output.
+- `app`: CLI and Swing desktop using the same domain. No network service or web conversion.
+- `model`, `dao`, `tablemodel`: preserved JPA entities and legacy public CRUD/table APIs, upgraded to Jakarta. DAO calls own a transaction and return detached entities; failures propagate after rollback. Fetch lazy relationships inside an explicit persistence context when needed.
+- `db/migrations`: versioned PostgreSQL baseline for **new** databases. `schema_version` records the applied baseline; Compose runs it only during initial database creation. There is no automatic migration runner.
 
-## Diagrama Entidade-Relacionamento
+The file scheduler deliberately does not write generated schedules into legacy tables. Legacy `Committee` has no room field, and its integer `day` has no documented calendar/date mapping. An implicit conversion would lose information. Keep the CSV as the reviewed schedule, or implement an explicit adapter/migration for your installation.
 
-<p align="center">
-  <img src="https://github.com/kleberandrade/committee-timetable/blob/master/figures/database.png" height=600"/>
-</p>
+## PostgreSQL integration
 
-License
-----
+```sh
+docker compose up -d --wait
+cp .env.example .env
+set -a
+. ./.env
+set +a
+./mvnw clean verify
+```
 
-    Copyright 2018 Kleber de Oliveira Andrade
-    
-    Permission is hereby granted, free of charge, to any person obtaining a copy
-    of this software and associated documentation files (the "Software"), to deal
-    in the Software without restriction, including without limitation the rights
-    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    copies of the Software, and to permit persons to whom the Software is
-    furnished to do so, subject to the following conditions:
-    
-    The above copyright notice and this permission notice shall be included in all
-    copies or substantial portions of the Software.
-    
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    SOFTWARE.
+This creates only the `committee-timetable` Compose project, database `committee_demo`, dedicated volume and loopback port **55439**. The committed credentials are public local-demo values. Use separate secrets for other environments. JPA reads `COMMITTEE_DB_URL`, `COMMITTEE_DB_USER`, `COMMITTEE_DB_PASSWORD`; it always **validates** schema instead of updating it. `COMMITTEE_DB_TEST=true` enables the real database tests; without it those two tests are explicitly skipped. Do not enable them against a live database: one test commits synthetic CRUD rows and removes them afterward; the relationship test rolls back.
+
+```sh
+docker compose stop
+```
+
+Stopping preserves the project volume. No reset or deletion of other databases is required.
+
+## Migration from 1.x
+
+Back up an existing database first and test migration on a private copy. Do **not** apply `V001__legacy_baseline.sql` to an existing schema. Compare the actual schema with the baseline and validate it with Hibernate; legacy source had broken provider/entity names and no checked-in DDL, so historical deployed schemas cannot be assumed identical.
+
+Entity/property names and nullable legacy fields remain. `Professor`/`Degree` retain a shared `hibernate_sequence` with increment 1; identity IDs and join tables remain. The integer `day` values are not reinterpreted. No production data was inspected or converted. Jakarta imports replace `javax.persistence`, so callers must rebuild. The mis-typed `ProjectTypeDAO` now operates on `ProjectType`. DAO errors now throw instead of being printed and hidden. The old `com...utils.EntityManagerUtil` package remains available despite its historical `util/` source directory.
+
+The earlier JPA 2.1, Hibernate 5.4 and JDBC 42.2.5 instructions are historical and have been replaced by the requirements above. The original modeling purpose and [entity-relationship diagram](figures/database.png) are preserved; that diagram describes the legacy model, not the new file scheduling value objects.
+
+## Verification and limits
+
+```sh
+./mvnw clean verify
+# Optional locally installed analysis tools:
+crapper --use-existing-coverage --threshold 10
+dryer --threshold 0.8
+mutator --use-existing-coverage --max-workers 2 \
+  --test-command './mvnw -q -Dtest=SchedulerTest test' \
+  src/main/java/com/kleberandrade/committeetimetable/domain
+```
+
+CI runs Java 21, a PostgreSQL service initialized with the same baseline, all behavior/integration tests, and packaged CLI smoke checks. JaCoCo HTML/XML is generated at `target/site/jacoco`; no unmeasured coverage badge is published. See [verification notes](docs/VERIFICATION.md) and the [action log](docs/WORK_LOG.md) for actual executed checks and limitations.
+
+Supported constraints are fixed composition, duration, explicit professor/student availability and professor/student/room overlap. Expertise matching, examiner selection, workload fairness, travel/break times, existing calendar reservations, timezone conversion, recurring weeks and multi-day defenses are not implemented. Existing reservations must be represented by narrowing availability/removing slots. Infeasibility applies only to supplied candidates; a search limit leaves feasibility unknown. Search is exponential in the worst case; this is an educational planner for small instances.
+
+## Original project and license
+
+Originally “Final Project Committee Timetabling Problem”, by **Kleber de Oliveira Andrade (2018)**: organizing final-project defenses within participant availability. The ER diagram and original entity model remain in the repository. No linked Medium article or shortened tutorial URL was found in the original README or sources; [review record](docs/medium-update.pt-BR.md).
+
+Project source is [MIT](LICENSE). Dependencies retain their own licenses; see [third-party notices](docs/THIRD_PARTY.md). This modernization does not relicense dependencies or the original diagram.

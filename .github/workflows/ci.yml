@@ -1,0 +1,58 @@
+name: Java CI
+on:
+  push:
+    branches: [master]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:17.7-alpine@sha256:bb377b7239d2774ac8cc76f481596ce96c5a6b5e9d141f6d0a0ee371a6e7c0f2
+        env:
+          POSTGRES_DB: committee_demo
+          POSTGRES_USER: committee_demo
+          POSTGRES_PASSWORD: local_demo_only
+        ports: [5432:5432]
+        options: >-
+          --health-cmd "pg_isready -U committee_demo -d committee_demo"
+          --health-interval 2s --health-timeout 3s --health-retries 30
+    env:
+      COMMITTEE_DB_TEST: 'true'
+      COMMITTEE_DB_URL: jdbc:postgresql://localhost:5432/committee_demo
+      COMMITTEE_DB_USER: committee_demo
+      COMMITTEE_DB_PASSWORD: local_demo_only
+      PGHOST: localhost
+      PGUSER: committee_demo
+      PGDATABASE: committee_demo
+      PGPASSWORD: local_demo_only
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - name: Initialize the isolated schema
+        run: psql -v ON_ERROR_STOP=1 -f db/migrations/V001__legacy_baseline.sql
+      - name: Test and package
+        run: ./mvnw -B clean verify
+      - name: Smoke test the packaged CLI
+        shell: bash
+        run: |
+          java -Djava.awt.headless=true -jar target/CommitteeTimetable-2.0.0-app.jar --input examples/feasible --output /tmp/committee-schedule.csv
+          set +e
+          java -Djava.awt.headless=true -jar target/CommitteeTimetable-2.0.0-app.jar --input examples/infeasible
+          code=$?
+          set -e
+          test "$code" -eq 2
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verification-reports
+          path: |
+            target/surefire-reports
+            target/site/jacoco
