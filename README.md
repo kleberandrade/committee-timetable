@@ -51,12 +51,24 @@ Use ISO dates (`2030-06-10`) and local times (`09:00`). Windows must end after t
 
 A slot is a **candidate start time and room reservation window**, not a range of arbitrary possible starts. For 09:00 and 09:15 alternatives, supply two rows. The defense starts at the candidate start and reserves only its duration. Adjacent defenses are allowed: intervals are `[start, end)`. Multiple slots may overlap; the solver still rejects overlapping reservations of the same room, professor or student. Different rooms can run in parallel when participants are disjoint.
 
+## Articles, diagrams and solution guide
+
+- [Architecture and class diagrams](docs/architecture.md): domain, use-case/adapters and preserved JPA class diagrams, with enforced dependency direction.
+- [Clean Architecture in this project](docs/articles/clean-architecture.md): responsibilities, constructor injection, compatibility and extension paths.
+- [Scheduling solution walkthrough](docs/articles/scheduling-solution.md): constraints, candidate filtering, backtracking trace, completeness, complexity and termination limits.
+- [Articles and primary references](docs/articles/references.md): attributed reading from Robert C. Martin, Alistair Cockburn, Berkeley, ArchUnit and Hibernate.
+- [Architecture decision record](docs/adr/001-clean-architecture.md): alternatives and trade-offs behind the implementation.
+
 ## Architecture and glossary
 
 - `domain/Planning`: immutable, validated values. A **defense** is a project and its fixed committee/students; a **window** is local availability on one date; a **slot** pairs a window with a room; an **assignment** reserves a slot for a defense.
 - `domain/Scheduler`: pure, deterministic backtracking over supplied candidates, ordered by fewest eligible slots. Each call owns its search state. Budget: **100,000 visited nodes** in CLI/GUI. `solve(request, limit)` lets embedding applications choose another positive limit.
-- `io/PlanFiles`: strict input parsing with file/line diagnostics and escaped CSV output.
-- `app`: CLI and Swing desktop using the same domain. No network service or web conversion.
+- `application`: `GenerateSchedule` and `ExportSchedule` use cases with application-owned source/export ports. No filesystem, console, Swing or JPA dependencies.
+- `adapters/in/cli`, `adapters/in/swing`: user interfaces injected with the same use cases.
+- `adapters/out/file`: strict TSV parsing with file/line diagnostics and CSV output with explicit create-new/replace semantics.
+- `bootstrap/CompositionRoot`: the single place that selects concrete source, solver, exporter and shipped search budget.
+- `io/PlanFiles`: retained static compatibility facade for existing callers.
+- `app`: stable executable/static compatibility entry methods. No network service or web conversion.
 - `model`, `dao`, `tablemodel`: preserved JPA entities and legacy public CRUD/table APIs, upgraded to Jakarta. DAO calls own a transaction and return detached entities; failures propagate after rollback. Fetch lazy relationships inside an explicit persistence context when needed.
 - `db/migrations`: versioned PostgreSQL baseline for **new** databases. `schema_version` records the applied baseline; Compose runs it only during initial database creation. There is no automatic migration runner.
 
@@ -85,7 +97,7 @@ Stopping preserves the project volume. No reset or deletion of other databases i
 
 Back up an existing database first and test migration on a private copy. Do **not** apply `V001__legacy_baseline.sql` to an existing schema. Compare the actual schema with the baseline and validate it with Hibernate; legacy source had broken provider/entity names and no checked-in DDL, so historical deployed schemas cannot be assumed identical.
 
-Entity/property names and nullable legacy fields remain. `Professor`/`Degree` retain a shared `hibernate_sequence` with increment 1; identity IDs and join tables remain. The integer `day` values are not reinterpreted. No production data was inspected or converted. Jakarta imports replace `javax.persistence`, so callers must rebuild. The mis-typed `ProjectTypeDAO` now operates on `ProjectType`. DAO errors now throw instead of being printed and hidden. The old `com...utils.EntityManagerUtil` package remains available despite its historical `util/` source directory.
+Entity/property names and nullable legacy fields remain. `Professor`/`Degree` retain a shared `hibernate_sequence` with increment 1; identity IDs and join tables remain. The integer `day` values are not reinterpreted. No production data was inspected or converted. Jakarta imports replace `javax.persistence`, so callers must rebuild. The mis-typed `ProjectTypeDAO` now operates on `ProjectType`. DAO errors now throw instead of being printed and hidden. The old `com...utils.EntityManagerUtil` package remains available and its source directory now correctly matches `utils/`.
 
 The earlier JPA 2.1, Hibernate 5.4 and JDBC 42.2.5 instructions are historical and have been replaced by the requirements above. The original modeling purpose and [entity-relationship diagram](figures/database.png) are preserved; that diagram describes the legacy model, not the new file scheduling value objects.
 
@@ -93,6 +105,7 @@ The earlier JPA 2.1, Hibernate 5.4 and JDBC 42.2.5 instructions are historical a
 
 ```sh
 ./mvnw clean verify
+./mvnw spotless:apply  # apply the pinned Java formatting rules
 # Optional locally installed analysis tools:
 crapper --use-existing-coverage --threshold 10
 dryer --threshold 0.8
@@ -101,9 +114,13 @@ mutator --use-existing-coverage --max-workers 2 \
   src/main/java/com/kleberandrade/committeetimetable/domain
 ```
 
-CI runs Java 21, a PostgreSQL service initialized with the same baseline, all behavior/integration tests, and packaged CLI smoke checks. JaCoCo HTML/XML is generated at `target/site/jacoco`; no unmeasured coverage badge is published. See [verification notes](docs/VERIFICATION.md) and the [action log](docs/WORK_LOG.md) for actual executed checks and limitations.
+ArchUnit checks compiled dependencies between domain, application and adapters; Spotless checks Java formatting during `verify`. CI runs Java 21, a PostgreSQL service initialized with the same baseline, all behavior/integration tests, and packaged CLI smoke checks. JaCoCo HTML/XML is generated at `target/site/jacoco`; no unmeasured coverage badge is published. See [verification notes](docs/VERIFICATION.md) and the [action log](docs/WORK_LOG.md) for actual executed checks and limitations.
 
 Supported constraints are fixed composition, duration, explicit professor/student availability and professor/student/room overlap. Expertise matching, examiner selection, workload fairness, travel/break times, existing calendar reservations, timezone conversion, recurring weeks and multi-day defenses are not implemented. Existing reservations must be represented by narrowing availability/removing slots. Infeasibility applies only to supplied candidates; a search limit leaves feasibility unknown. Search is exponential in the worst case; this is an educational planner for small instances.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for responsibility boundaries, behavior-first changes, formatting and documentation rules.
 
 ## Original project and license
 

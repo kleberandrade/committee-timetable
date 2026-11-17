@@ -7,3 +7,5 @@ Runtime dependencies include Hibernate ORM 7.4 (Apache-2.0), Jakarta Persistence
 Consult each resolved artifact's POM, license and notices for authoritative terms. The executable dependency bundle preserves upstream META-INF license/notice resources, merging Apache notices where applicable. Re-distributors should review its contents and their distribution requirements. No third-party implementation has been copied into project sources.
 
 See the [resolved runtime inventory](RUNTIME_LICENSES.md) for exact versions and upstream license URLs. Original per-artifact POMs and available embedded license/notice texts are preserved without name collisions under `META-INF/third-party/` in both built JARs.
+
+Architecture verification uses ArchUnit 1.5.1 (Apache-2.0), test scope only. Formatting uses Spotless 3.1.0 and Google Java Format 1.28.0 (Apache-2.0 tooling); these tools are not packaged in the application runtime.

@@ -16,3 +16,16 @@
 - Rebuilt the desktop-validated dependency bundle twice before the final boundary audit in the same environment: SHA-256 `1803b2e7bd96e5f25fe233f06ecc341401a5d078d4cea27410d111961957b32d` both times. Packaged headless feasible/infeasible smoke checks passed again.
 - Final boundary audit added limits of 200 defenses/5,000 candidates to bound recursive depth and candidate storage. Observed the new rejection test fail before enforcing limits; verified exact limit acceptance and rejection above each limit.
 - After the boundary audit, all **20 tests** passed with PostgreSQL and the final packaged CLI passed. Repeated final packaging produced SHA-256 `8924d9a20f7b996d480bf857817cd24bcaacf90e44c57ba73d59da8b82ee5e1f` twice.
+
+## Clean Architecture and solution documentation follow-up
+
+- Re-inspected the clean published `master` and kept the public CLI/static entry contracts and existing JPA packages. No additional AGENTS.md applies in this repository.
+- Wrote use-case tests first, observed missing contracts and then three failing behavior assertions against no-op orchestration. Implemented injected generation/export use cases and domain/application-owned ports.
+- Moved CLI/Swing into inbound adapters, split TSV input and CSV output adapters, and added a single composition root. The legacy file/static entry methods delegate for compatibility. Corrected the physical `utils` source directory without changing its public package.
+- Centralized the default node budget and feasible-only export policy. Switched create-new CSV export from a pre-check to atomic filesystem CREATE_NEW; checked preserved contents, explicit replacement and original I/O causes in adapter tests.
+- Added four compiled-dependency rules with ArchUnit and pinned Spotless/Google Java Format to normalize Java source/test formatting and enforce it in CI. A too-broad initial package matcher also caught java.io presentation classes; corrected the matcher to target only the project compatibility package.
+- Opened and read relevant original sections from Martin, Cockburn, Berkeley CS188, ArchUnit and Hibernate. Added attributed references, two project-specific technical articles, four Mermaid diagrams and ADR-001. No Medium publication/association was invented.
+- Rendered and inspected all four diagrams with Mermaid CLI 11.12.0 and the installed Chrome in a temporary headless session; no user browser tabs were used for rendering.
+- Extracted the schedule table into its own typed, chronological presentation model, removing the duplicate read-only override and testing its visible rows, columns and reset behavior without a frame.
+- Expanded mutation analysis to domain/application/file adapters: initial 53 killed, 6 survived, 3 uncovered. Added identifier, trailing-empty-field, exact file-size and diagnostic assertions; final 62 killed, 0 survived, 0 uncovered detected sites. Final CRAP maximum 8.0 and no duplicate candidates at 0.8.
+- Final full build passed 38 tests with real project-isolated PostgreSQL, four dependency rules and 63 formatted Java files. Packaged CLI examples and the actual Swing feasible/infeasible flows were verified again. Added contribution rules and synchronized README/verification/third-party tooling notes.

@@ -1,6 +1,8 @@
 # Verification record — 2026-11-17
 
-## Executed locally
+The latest Clean Architecture follow-up passed **38 tests** with PostgreSQL, four compiled dependency rules and formatting enforcement. Earlier counts below are retained as historical evidence; see the follow-up section for current results.
+
+## Initial modernization: executed locally
 
 - Java 21 (Homebrew OpenJDK), Maven 3.9.11 via the generated Wrapper, macOS.
 - `./mvnw clean verify` and subsequent `verify` after desktop corrections: **20 tests, zero failures/errors/skips** with `COMMITTEE_DB_TEST=true` and the isolated PostgreSQL running. Seven test classes cover scheduling, file boundaries/CSV, CLI behavior, presentation text, Swing table models and persistence.
@@ -27,3 +29,14 @@ The disk briefly ran out of space and OrbStack stopped with an I/O/full-disk ale
 ## Scope limits
 
 The scheduler proves feasibility/infeasibility only over supplied finite candidates and fixed committees. It has no global optimization objective, examiner selection or fairness model. Legacy data was not migrated or sampled; date/room translation to the integer-day JPA model is intentionally explicit and unimplemented. See README for supported constraints and migration guidance. CI execution is tracked on GitHub for the pushed commit; the badge references the actual `ci.yml` workflow on `master`.
+
+## Clean Architecture follow-up
+
+- `JAVA_HOME=... COMMITTEE_DB_TEST=true ... ./mvnw spotless:apply clean verify`: **38 tests, 0 failures, 0 errors, 0 skips**, on Java 21/Maven Wrapper 3.9.11 with the dedicated PostgreSQL database. The subsequent `verify` formatting check confirmed all 63 Java source/test files were formatted.
+- Four ArchUnit rules ran against compiled production classes: inward domain/application dependencies, no input-to-output implementation dependencies and no output-to-input dependencies. Existing CLI/static file entry methods remain behavior-tested compatibility facades.
+- Application orchestration tests were introduced first and observed failing generation, source-failure and export assertions against no-op implementations before use cases were implemented. Table presentation was extracted behind a headless row/column/reset test. Parser tests added after mutation analysis cover identifiers, trailing empty values, exact one-MiB acceptance, oversized rejection, column counts and row diagnostics.
+- `crapper --use-existing-coverage --threshold 10` passed; highest detected method CRAP **8.0**. `dryer --threshold 0.8` reported **no duplicate candidates** after the schedule table reused the generic read-only column model.
+- Expanded mutation scope: domain, application and file adapters. Initial tool result: **53 killed, 6 survived, 3 uncovered**, across 62 detected sites. After adding meaningful parser-boundary/diagnostic assertions, final result: **62 killed, 0 survived, 0 uncovered detected sites**. This does not claim coverage of all possible mutations, record constructor checks or the entire GUI/persistence subsystem.
+- Rendered all four Markdown Mermaid diagrams with Mermaid CLI 11.12.0 and an installed Chrome in a temporary headless rendering process; visually inspected dependency, use-case, domain and legacy diagrams. Mermaid remains embedded in the documentation, requiring no diagram build tool to view on GitHub.
+- Executed packaged CLI feasible/infeasible examples again; exit statuses and synthetic assignments were preserved. Launched the refactored Swing application through a temporary native bundle and observed initial state, three feasible rows, switching dataset and infeasible state with export disabled. Native open/save dialogs and keyboard-only completion were not re-tested.
+- No schema, credentials, entity package names or existing-database data were migrated. The runtime dependency set is unchanged; ArchUnit is test-only and Spotless/Google Java Format are build tools.
